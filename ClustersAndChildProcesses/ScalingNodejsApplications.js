@@ -12,7 +12,7 @@
 /* ------------------------- Scalability Strategies ------------------------- */
 // 1. Cloning
 // 2. Decomposing (microservices)
-// Splitting (each portion is responsible for a part of the application data. Also named horizontal partitioning or sharding)
+// 3. Splitting (each portion is responsible for a part of the application data. Also named horizontal partitioning or sharding)
 
 /* -------------------------------------------------------------------------- */
 /*                    Child Process Events and Standard IO                    */
@@ -22,12 +22,19 @@
 // Control its input stream (eg: pass arguments) and listen in its output stream (eg: pipe its output)
 
 // Ways to create a child process in Node
-// spawn()
-// Launches a command in a new procss and we can use it to pass arguments
+
 const { spawn, exec, execFile, fork } = require('child_process')
+/* -------------------------------------------------------------------------- */
+/*                                   spawn()                                  */
+/* -------------------------------------------------------------------------- */
+
+/*
+
+// Launches a command in a new procss and we can use it to pass arguments
 
 // const child = spawn('pwd')
 const find = spawn('find', ['.', '-type', 'f'])
+
 // returns a child process instance (wich implements node events api this means that we can register handlers for this child object directly)
 const wc = spawn('wc', ['-l'])
 
@@ -44,6 +51,9 @@ wc.stderr.on('data', data => {
 wc.on('exit', function (code, signal) {
   console.log(`Child process exited with the code ${code}. Signal ${signal}.`)
 })
+
+*/
+
 // Other events we can listen on this child process:
 // disconnect: when the parent process manualy calls the child process disconect() method
 // error: when a process can not be spawn or killed
@@ -53,18 +63,15 @@ wc.on('exit', function (code, signal) {
 // Every child process get three standar IO streams (child.stdin, child.stdout, child.stderr)
 // The child process gettin exited doesn't mean the the stream got closed
 
-// fork()
-// exec()
-// execFile()
-
 /* -------------------------------------------------------------------------- */
 /*                            exec() and execFile()                           */
 /* -------------------------------------------------------------------------- */
 // The spawn method does not create a shell and is more efficient than exec() method that does it
 // Other difference is that exec() buffers the whole ouput generates by the command and passes to a callback
 // The spawn method is better when the data returned from the command is big. Because that data will be stramed
-// with the standar data IO object. And make the child process inhert the standard IO object of its parents if we want to.
+// with the standard data IO object. And make the child process inhert the standard IO object of its parents if we want to.
 
+/*
 exec('find . -type f | wc -l', (err, stdout, stderr) => {
   // has the shell syntax and receives a callback
   if (err) {
@@ -74,9 +81,11 @@ exec('find . -type f | wc -l', (err, stdout, stderr) => {
   console.log(`Number of files: ${stdout}`)
 })
 
+*/
+
 // We can achieve this with (this is the best of the two worlds: because has the shell syntax and streams the output)
 
-const child = spawn('find . -type f && echo $ANSWER', {
+const child = spawn('pwd && find . -type f | wc -l && echo $ANSWER', {
   stdio: 'inherit', // inherits from the parent process
   shell: true,
   cwd: '/home/pablo', // to execute in anoter directory,
