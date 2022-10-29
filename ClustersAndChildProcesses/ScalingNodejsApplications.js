@@ -106,10 +106,10 @@ const child = spawn('pwd && find . -type f | wc -l && echo $ANSWER', {
 // Can be used to enable load balancing under an environment of multiple CPU cores
 // Its based on the fork() function. Basically alows us to fork our main application process as many times as we have cpu cores.
 // Then it will take over and load balance all requests to the main process across all forked processes.
-// Is Nodes way to help us to implement the Cloning Scalability Strategy but ONLY ON ONE MACHINE
+// Is Node's way to help us to implement the Cloning Scalability Strategy but ONLY ON ONE MACHINE
 
 // How It Works
-// We create a Master Process an that master process:
+// We create a Master Process and that master process:
 // Forks a number of Worker Proccesses and manages them.
 // Each worker process represents an instance of the application we want to scale
 // Incomming requests are handled by the master process and it decides wich worker process should handle the request (using a round-robin algorithm to pick up a worker process)
@@ -148,5 +148,5 @@ const child = spawn('pwd && find . -type f | wc -l && echo $ANSWER', {
 // kill -SIGUSR2 [MASTERPID]
 
 /* -------------------------------------------------------------------------- */
-/*                   Sharing State ans Sticky Load Balancing                  */
+/*                   Sharing State and Sticky Load Balancing                  */
 /* -------------------------------------------------------------------------- */

@@ -18,14 +18,14 @@ if (cluster.isMaster) {
     cluster.fork()
   }
 
+  // console.dir(cluster.workers, { depth: 0 })
+
   const updateWorkers = () => {
     const usersCount = numberOfUsersInDb()
-    Object.values(cluster.workers).forEach(worker => worker.send({ usersCount }))
+    Object.values(cluster.workers).forEach(worker => worker.send(usersCount))
   }
 
-  updateWorkers()
-
-  setInterval(updateWorkers, 10000)
+  setInterval(() => updateWorkers(), 10000)
 } else {
   require('./server')
 }
