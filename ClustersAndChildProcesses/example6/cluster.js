@@ -23,11 +23,17 @@ if (cluster.isMaster) {
 
     const restartWorker = workerIndex => {
       const worker = workers[workerIndex]
+
       if (!worker) return
 
       worker.on('exit', () => {
-        if (!worker.exitedAfterDisconnect) return
-        console.log(`Exited process ${worker.process.pid}`)
+        if (!worker.exitedAfterDisconnect)
+          returnsetTimeout(() => {
+            process.exit(1)
+          }, Math.random() * 10000)
+
+        console.log(`Exited worker ${worker.id} - process ${worker.process.pid}`)
+
         cluster.fork().on('listening', () => {
           restartWorker(workerIndex + 1)
         })

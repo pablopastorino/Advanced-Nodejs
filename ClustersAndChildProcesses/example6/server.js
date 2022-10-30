@@ -1,19 +1,18 @@
 const http = require('http')
-const pid = process.pid
-
-let usersCount
+const { worker } = require('cluster')
+const { pid } = process
 
 http
   .createServer((req, res) => {
     // simulate CPU work
     for (let i = 0; i < 1e7; i++);
-    res.write(`Handled by process ${pid}\n`)
-    res.end(`Users ${usersCount}`)
+
+    res.end(`Handled by worker ${worker.id} - process ${pid}\n`)
   })
   .listen(8080, () => {
-    console.log(`Started process ${pid}`)
+    console.log(`Started worker ${worker.id} - process ${pid}`)
   })
 
-// setTimeout(() => {
-//   process.exit(1)
-// }, Math.random() * 10000)
+setTimeout(() => {
+  process.exit(1)
+}, Math.random() * 10000)
