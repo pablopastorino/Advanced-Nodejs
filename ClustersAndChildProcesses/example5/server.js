@@ -17,3 +17,7 @@ http
 setTimeout(() => {
   process.exit(1)
 }, Math.random() * 10000)
+
+process.on('message', msg => {
+  usersCount = msg
+})

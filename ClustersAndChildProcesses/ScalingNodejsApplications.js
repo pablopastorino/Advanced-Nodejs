@@ -134,7 +134,7 @@ const child = spawn('pwd && find . -type f | wc -l && echo $ANSWER', {
 /* -------------------------------------------------------------------------- */
 // When running a single instance we have the problem that when it crashes will be some downtime until it restarts.
 // Even if the process was automated as it should be
-// Also applies to the case when the code has to be redeply to upload new code (there will be a downtime that will affect the availability of the system)
+// Also applies to the case when the code has to be redeploy to upload new code (there will be a downtime that will affect the availability of the system)
 
 // Example 5: Simulate a Random Crash
 
@@ -150,3 +150,4 @@ const child = spawn('pwd && find . -type f | wc -l && echo $ANSWER', {
 /* -------------------------------------------------------------------------- */
 /*                   Sharing State and Sticky Load Balancing                  */
 /* -------------------------------------------------------------------------- */
+// Cluster module does not support sticky load balancing
