@@ -5,26 +5,27 @@ const readline = require('readline').createInterface({
   output: process.stdout
 })
 
-let addr, domain
+let domain = 'https://makingsense.com/index.html'
+let addr
 
-readline.question('Hostname: ', input => {
-  domain = input
-})
+// readline.question('Hostname: ', input => {
+//   domain = input
+// })
 
 dns.lookup(domain, (err, address) => {
-  console.log('Address (dns.lookup): ', address)
   addr = address
+  console.log('Address (dns.lookup): ', addr)
 })
 // This method does not use netkork communication. Instead use the system facilities (libuv)
 // All other methods in the dns module, use the network directly
 
 dns.resolve4(domain, (err, address) => {
-  console.log('Address (dns.resolve4): ', address)
+  console.log('Address (dns.resolve4): ', addr)
 })
 
 dns.resolve(domain, 'MX', (err, address) => {
   // Default second parameter is A
-  console.log('Address (dns.resolveMx): ', address)
+  console.log('Address (dns.resolveMx): ', addr)
 })
 
 // Other way
@@ -33,6 +34,6 @@ dns.resolve(domain, 'MX', (err, address) => {
 //   console.log(address)
 // })
 
-dns.reverse(addr, (err, hostName) => {
-  console.log(hostName)
-})
+// dns.reverse(addr, (err, hostName) => {
+//   console.log(hostName)
+// })

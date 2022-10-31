@@ -19,6 +19,7 @@ server.on('connection', socket => {
       socket.write(`Welcome ${socket.name}!\n`)
 
       console.log(`${socket.name} connected`)
+
       Object.entries(sockets).forEach(([, cs]) => {
         if (cs.id === socket.id) return
         cs.write(`${socket.name} is connected\n`)
@@ -46,3 +47,5 @@ server.on('connection', socket => {
 server.listen(8000, () => {
   console.log('Server Bound')
 })
+// nc localhost 8000
+// to connect a new web socket
