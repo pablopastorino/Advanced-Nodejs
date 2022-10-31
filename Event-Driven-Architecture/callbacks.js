@@ -6,6 +6,7 @@
 // The callback has an 'error first' parameter that is nullable
 
 const fs = require('fs')
+const path = require('path')
 
 const readFileAsArray = function (file, cb) {
   fs.readFileSync(file, (err, data) => {
@@ -18,7 +19,7 @@ const readFileAsArray = function (file, cb) {
 }
 
 // Example call
-readFileAsArray(__dirname + '/numbers', (err, lines) => {
+readFileAsArray(path.join(__dirname, 'numbers'), (err, lines) => {
   if (err) throw Error(err.message)
 
   const numbers = lines.map(Number)

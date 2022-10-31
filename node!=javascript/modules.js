@@ -1,7 +1,7 @@
 // require('something') process
-// 1. Resolving (to find the absolute path of a module)
-// 2. Loading: depending of the content of the file at the resolved path
-// 3. Wrapping: what gives every module its private scope and make require local to every module
+// 1. Resolving (to find the ABSOLUTE PATH OF A MODULE)
+// 2. Loading: depending of the CONTENT of the file at the resolved path
+// 3. Wrapping: what gives every module its PRIVATE SCOPE and make require local to every module
 // 4. Evaluating: is what the VM eventualy does with the code
 // 5. Caching: so when require this module again we don't go over all this steps again
 

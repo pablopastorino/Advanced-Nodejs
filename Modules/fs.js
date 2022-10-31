@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
 const dirname = path.join(__dirname)
 
 // Asynchronous
@@ -33,8 +34,8 @@ const data = fs.readFileSync(__filename)
 // })
 
 /* --------------- Exercise: Delete Anything Older Than 7 days -------------- */
-const newDirname = path.join(__dirname, 'files')
-const files = fs.readdirSync(newDirname)
+const filesDir = path.join(__dirname, 'files')
+const files = fs.readdirSync(filesDir)
 const ms1Day = 24 * 60 * 60 * 1000
 
 // Create Folder and Files
@@ -55,38 +56,38 @@ const ms1Day = 24 * 60 * 60 * 1000
 // }
 
 // Delete Files Older Than 7 Days
-// files.forEach(file => {
-//   const filePath = path.join(newDirname, file)
-//   fs.stat(filePath, (err, stats) => {
-//     if (err) throw err
+files.forEach(file => {
+  const filePath = path.join(filesDir, file)
 
-//     if (Date.now() - stats.mtime.getTime() > 7 * ms1Day) {
-//       fs.unlink(filePath, err => {
-//         if (err) throw err
-//         console.log(`deleted ${filePath}`)
-//       })
-//     }
-//   })
-// })
+  fs.stat(filePath, (err, stats) => {
+    console.log(stats)
+
+    if (err) throw err
+
+    if (Date.now() - stats.mtime.getTime() > 7 * ms1Day) {
+      fs.unlink(filePath, err => {
+        if (err) throw err
+        console.log(`deleted ${filePath}`)
+      })
+    }
+  })
+})
 
 /* -------------------------- Exercise Watch Files -------------------------- */
 
 const logWithTime = message => console.log(`${new Date().toUTCString()}: ${message}`)
 
-fs.watch(newDirname, (eventType, filename) => {
+fs.watch(filesDir, (eventType, filename) => {
   if (eventType === 'rename') {
     // add or delete
     const index = files.indexOf(filename)
+
     if (index >= 0) {
       files.splice(index, 1)
-      logWithTime(`${filename} was removed`)
-      return
+      logWithTime(`${eventType}: deleted - ${filename}`)
+    } else {
+      files.push(filename)
+      logWithTime(`${eventType}: added - ${filename}`)
     }
-
-    files.push(filename)
-    logWithTime(`${filename} was added`)
-    return
   }
-
-  logWithTime(`${filename} was changed`)
 })

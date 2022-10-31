@@ -27,8 +27,8 @@
 
 // = // default
 // * or x // any number
-// ~ // PATCH: any number bigger than the specified patch
 // ^ // MINOR: any number bigger than the specified minor version
+// ~ // PATCH: any number bigger than the specified patch
 
 // To update npm
 // npm i npm -g
